@@ -1,5 +1,5 @@
 Description:
-Welcome to FlaskSocialBlogger by JINX an enterprise based on innovation and expertise, an open-source social blogging application built on Flask, the Python web framework. This repository houses a feature-rich platform that empowers users to share their stories, thoughts, and experiences within a vibrant community. With a focus on simplicity, flexibility, and extensibility, FlaskSocialBlogger offers a robust set of features for both bloggers and developers.
+Welcome to FlaskSocialBlogger by ```JINX``` an enterprise based on innovation and expertise, an open-source social blogging application built on Flask, the Python web framework. This repository houses a feature-rich platform that empowers users to share their stories, thoughts, and experiences within a vibrant community. With a focus on simplicity, flexibility, and extensibility, FlaskSocialBlogger offers a robust set of features for both bloggers and developers.
 
 Key Features:
 
