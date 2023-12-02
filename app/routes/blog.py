@@ -4,7 +4,7 @@ from app import db, bcrypt, login_manager
 from app.forms import BlogPostForm
 from app.models import BlogPost
 from markdown2 import markdown  # Import markdown library
-from app.models import CommentForm,Comment
+from app.models import CommentForm,Comment,Notification
 
 
 blog = Blueprint('blog', __name__)
@@ -22,10 +22,11 @@ def new_post():
     return render_template('blog/create_post.html', title='New Post', form=form)
 
 
+
 @blog.route("/post/<int:post_id>", methods=['GET', 'POST'])
 def post_detail(post_id):
     post = BlogPost.query.get_or_404(post_id)
-    html_content = markdown(post.content)  # Convert Markdown to HTML
+    html_content = markdown(post.content)
 
     form = CommentForm()
 
@@ -34,6 +35,10 @@ def post_detail(post_id):
         db.session.add(comment)
         db.session.commit()
         flash('Your comment has been added!', 'success')
+        
+        # Create comment notification
+        post.create_comment_notification(comment)
+
         return redirect(url_for('blog.post_detail', post_id=post.id))
 
     comments = Comment.query.filter_by(post_id=post.id).all()
@@ -48,7 +53,12 @@ def like_post(post_id):
     post = BlogPost.query.get_or_404(post_id)
     post.like()
     flash('You liked the post!', 'success')
+    
+    # Create like notification
+    post.create_like_notification()
+
     return redirect(url_for('blog.post_detail', post_id=post.id))
+
 
 
 @blog.route("/post/<int:post_id>/share", methods=['POST'])
@@ -57,7 +67,29 @@ def share_post(post_id):
     post = BlogPost.query.get_or_404(post_id)
     post.share()
     flash('You shared the post!', 'success')
+    
+    # Create share notification
+    post.create_share_notification()
+
     return redirect(url_for('blog.post_detail', post_id=post.id))
+
+
+
+
+@blog.route("/notifications")
+@login_required
+def notifications():
+    notifications = Notification.query.filter_by(user_id=current_user.id, is_read=False).order_by(Notification.timestamp.desc()).all()
+
+    # Mark notifications as read
+    for notification in notifications:
+        notification.is_read = True
+    db.session.commit()
+
+    return render_template('blog/notifications.html', title='Notifications', notifications=notifications)
+
+
+
 
 
 @blog.route("/post/<int:post_id>/edit", methods=['GET', 'POST'])
@@ -77,6 +109,7 @@ def edit_post(post_id):
         form.title.data = post.title
         form.content.data = post.content
     return render_template('blog/create_post.html', title='Edit Post', form=form)
+
 
 
 @blog.route("/post/<int:post_id>/delete", methods=['POST'])
