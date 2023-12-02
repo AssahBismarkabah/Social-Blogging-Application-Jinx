@@ -60,7 +60,7 @@ def like_post(post_id):
     return redirect(url_for('blog.post_detail', post_id=post.id))
 
 
-
+#share post for the user for corresponding topics 
 @blog.route("/post/<int:post_id>/share", methods=['POST'])
 @login_required
 def share_post(post_id):
@@ -90,7 +90,7 @@ def notifications():
 
 
 
-
+#search functionality(function)
 @blog.route("/search", methods=['GET', 'POST'])
 def search():
     query = request.args.get('query', '')  # Get the search query from the URL

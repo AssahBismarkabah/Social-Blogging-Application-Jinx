@@ -1,0 +1,34 @@
+/* app/static/styles/main.css */
+/* Add your existing styles */
+
+/* Add responsive styles for different screen sizes */
+@media only screen and (max-width: 600px) {
+    /* Styles for screens smaller than 600px */
+    body {
+      font-size: 14px;
+    }
+  
+    /* Adjust styles for smaller screens */
+    /* Add specific styles for mobile devices */
+  }
+  
+  @media only screen and (min-width: 601px) and (max-width: 1024px) {
+    /* Styles for screens between 601px and 1024px */
+    body {
+      font-size: 16px;
+    }
+  
+    /* Adjust styles for medium-sized screens */
+    /* Add specific styles for tablets */
+  }
+  
+  @media only screen and (min-width: 1025px) {
+    /* Styles for screens larger than 1024px */
+    body {
+      font-size: 18px;
+    }
+  
+    /* Adjust styles for larger screens */
+    /* Add specific styles for desktops or large displays */
+  }
+  
