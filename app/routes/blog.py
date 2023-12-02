@@ -5,7 +5,7 @@ from app.forms import BlogPostForm
 from app.models import BlogPost
 from markdown2 import markdown  # Import markdown library
 from app.models import CommentForm,Comment,Notification
-
+from sqlalchemy import or_
 
 blog = Blueprint('blog', __name__)
 
@@ -87,6 +87,42 @@ def notifications():
     db.session.commit()
 
     return render_template('blog/notifications.html', title='Notifications', notifications=notifications)
+
+
+
+
+@blog.route("/search", methods=['GET', 'POST'])
+def search():
+    query = request.args.get('query', '')  # Get the search query from the URL
+
+    if query:
+        # Use SQLalchemy's `ilike` for case-insensitive search
+        posts = BlogPost.query.filter(or_(BlogPost.title.ilike(f'%{query}%'), BlogPost.content.ilike(f'%{query}%'))).all()
+    else:
+        posts = []
+
+    return render_template('blog/search_results.html', title='Search Results', posts=posts, query=query)
+
+
+
+
+@blog.route("/trending")
+def trending():
+    # Implement your logic to determine trending posts
+    # Example: Get posts with the most likes in the last week
+    posts = BlogPost.query.order_by(BlogPost.likes.desc()).limit(5).all()
+
+    return render_template('blog/trending.html', title='Trending', posts=posts)
+
+
+
+@blog.route("/popular")
+def popular():
+    # Implement your logic to determine popular posts
+    # Example: Get posts with the most views or comments
+    posts = BlogPost.query.order_by(BlogPost.views.desc()).limit(5).all()
+
+    return render_template('blog/popular.html', title='Popular', posts=posts)
 
 
 
