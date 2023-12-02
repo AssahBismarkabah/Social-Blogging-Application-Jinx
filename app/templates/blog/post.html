@@ -11,14 +11,6 @@
       <div class="article-content">
         {{ html_content|safe }}
       </div>
-      {% if current_user == post.author %}
-        <div class="mt-4">
-          <a class="btn btn-outline-secondary btn-sm" href="{{ url_for('blog.edit_post', post_id=post.id) }}">Edit</a>
-          <form method="post" action="{{ url_for('blog.delete_post', post_id=post.id) }}" style="display: inline-block;">
-            <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
-          </form>
-        </div>
-      {% endif %}
     </div>
   </article>
 {% endblock %}
