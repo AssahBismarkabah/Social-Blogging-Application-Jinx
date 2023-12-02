@@ -1,10 +1,11 @@
-# app/routes/auth.py
-
 from flask import render_template, url_for, flash, redirect, Blueprint
 from flask_login import login_user, current_user, logout_user, login_required
-from app import db, bcrypt, login_manager
+from flask_bcrypt import Bcrypt  # Import Bcrypt
+from app import db, login_manager
 from app.forms import RegistrationForm, LoginForm
 from app.models import User
+
+bcrypt = Bcrypt()  # Create an instance of Bcrypt
 
 auth = Blueprint('auth', __name__)
 
@@ -23,5 +24,4 @@ def login():
         # ... handle login logic ...
         return render_template('auth/login.html', title='Login', form=form)
     return render_template('auth/login.html', title='Login', form=form)
-
 
