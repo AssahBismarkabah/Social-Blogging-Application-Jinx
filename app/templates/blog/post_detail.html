@@ -11,6 +11,18 @@
       <div class="article-content">
         {{ html_content|safe }}
       </div>
+
+      <!-- Like and Share Buttons -->
+      <div class="mt-4">
+        <form method="POST" action="{{ url_for('blog.like_post', post_id=post.id) }}">
+          <button type="submit" class="btn btn-info">Like {{ post.likes }}</button>
+        </form>
+
+        <form method="POST" action="{{ url_for('blog.share_post', post_id=post.id) }}">
+          <button type="submit" class="btn btn-primary">Share {{ post.shares }}</button>
+        </form>
+      </div>
+
       {% if current_user == post.author %}
         <div class="mt-4">
           <a class="btn btn-outline-secondary btn-sm" href="{{ url_for('blog.edit_post', post_id=post.id) }}">Edit</a>
@@ -22,3 +34,4 @@
     </div>
   </article>
 {% endblock %}
+

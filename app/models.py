@@ -20,6 +20,16 @@ class BlogPost(db.Model):
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     comments = db.relationship('Comment', backref='post', lazy=True)
+    likes = db.Column(db.Integer, default=0)
+    shares = db.Column(db.Integer, default=0)
+
+    def like(self):
+        self.likes += 1
+        db.session.commit()
+
+    def share(self):
+        self.shares += 1
+        db.session.commit()
 
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -27,5 +37,6 @@ class Comment(db.Model):
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey('blog_post.id'), nullable=False)
+
 
 

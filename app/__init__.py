@@ -4,14 +4,16 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
-from flask_bcrypt import Bcrypt  # Import Bcrypt
+from flask_bcrypt import Bcrypt
+from flask_social import Social  # Import Flask-Social
 from app.config import Config
 
 # Create instances of Flask extensions
 db = SQLAlchemy()
 migrate = Migrate()
-login_manager = LoginManager()  # Changed the name to login_manager
-bcrypt = Bcrypt()  # Create an instance of Bcrypt
+login_manager = LoginManager()
+bcrypt = Bcrypt()
+social = Social()  # Create an instance of Flask-Social
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -21,18 +23,20 @@ def create_app(config_class=Config):
     db.init_app(app)
     migrate.init_app(app, db)
     login_manager.init_app(app)
-    bcrypt.init_app(app)  # Initialize Bcrypt
+    bcrypt.init_app(app)
+    social.init_app(app)  # Initialize Flask-Social
 
     # Import and register blueprints
     from app.routes.auth import auth
     from app.routes.blog import blog
-    from app.routes.user import user_blueprint  # Correct import name
+    from app.routes.user import user_blueprint
 
     app.register_blueprint(auth)
     app.register_blueprint(blog)
-    app.register_blueprint(user_blueprint)  # Correct blueprint name
+    app.register_blueprint(user_blueprint)
 
     return app
+
 
 
 
