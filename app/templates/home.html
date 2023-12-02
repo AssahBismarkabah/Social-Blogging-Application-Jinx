@@ -1,0 +1,37 @@
+<!-- app/templates/blog/home.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        {% for post in posts %}
+          <article class="media content-section">
+            <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.avatar) }}">
+            <div class="media-body">
+              <div class="article-metadata">
+                <a class="mr-2" href="#">{{ post.author.username }}</a>
+                <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+              </div>
+              <h2 class="article-title">{{ post.title }}</h2>
+              <div class="article-content">
+                {{ post.content|safe }}
+              </div>
+              <div class="mt-4">
+                <form method="POST" action="{{ url_for('blog.like_post', post_id=post.id) }}">
+                  <button type="submit" class="btn btn-info">Like {{ post.likes }}</button>
+                </form>
+                <form method="POST" action="{{ url_for('blog.share_post', post_id=post.id) }}">
+                  <button type="submit" class="btn btn-primary">Share {{ post.shares }}</button>
+                </form>
+              </div>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+      <div class="col-md-4">
+        <!-- Add additional content or features for larger screens -->
+      </div>
+    </div>
+  </div>
+{% endblock %}
