@@ -1,4 +1,4 @@
-# app/routes/auth.py
+# app/routes/user.py
 
 from flask import Blueprint
 

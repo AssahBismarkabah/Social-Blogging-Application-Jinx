@@ -9,7 +9,7 @@ from app.config import Config
 # Create instances of Flask extensions
 db = SQLAlchemy()
 migrate = Migrate()
-login = LoginManager()
+login_manager = LoginManager()  # Changed the name to login_manager
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -18,7 +18,7 @@ def create_app(config_class=Config):
     # Initialize Flask extensions
     db.init_app(app)
     migrate.init_app(app, db)
-    login.init_app(app)
+    login_manager.init_app(app)  # Use login_manager here
 
     # Import and register blueprints
     from app.routes.auth import auth
@@ -30,6 +30,7 @@ def create_app(config_class=Config):
     app.register_blueprint(user)
 
     return app
+
 
 
 
