@@ -27,7 +27,7 @@ Key Features:
         Like and share blog posts to enhance user engagement.
         Seamless social media integration.
 
-    Notification System:
+    Notification System feature:
         Personalized notifications for new comments, likes, and shares.
         Centralized notification hub for easy tracking.
 
